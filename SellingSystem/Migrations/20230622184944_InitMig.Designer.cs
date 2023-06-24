@@ -12,8 +12,8 @@ using SellingSystem.Data;
 namespace SellingSystem.Migrations
 {
     [DbContext(typeof(SellingSystemDbContext))]
-    [Migration("20230622182421_ReturningInvoiceAddition")]
-    partial class ReturningInvoiceAddition
+    [Migration("20230622184944_InitMig")]
+    partial class InitMig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -82,16 +82,11 @@ namespace SellingSystem.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ReturningInvoiceId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("InvoiceId");
 
                     b.HasIndex("ProductId");
-
-                    b.HasIndex("ReturningInvoiceId");
 
                     b.ToTable("Orders");
                 });
@@ -212,19 +207,10 @@ namespace SellingSystem.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SellingSystem.Models.ReturningInvoice", null)
-                        .WithMany("Orders")
-                        .HasForeignKey("ReturningInvoiceId");
-
                     b.Navigation("Product");
                 });
 
             modelBuilder.Entity("SellingSystem.Models.Invoice", b =>
-                {
-                    b.Navigation("Orders");
-                });
-
-            modelBuilder.Entity("SellingSystem.Models.ReturningInvoice", b =>
                 {
                     b.Navigation("Orders");
                 });

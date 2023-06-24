@@ -25,11 +25,11 @@ namespace SellingSystem.Repositories.InvoiceControlRepository
                 total += Decimal.Multiply(_context.Products.Find(order.ProductId).Price, order.Amount);
             }
             var discount  = _context.Discounts
-                .Where(d => d.EndOfDiscount > DateTime.Now && d.StartOfDiscount < DateTime.Now)
+                .Where(d => d.EndOfDiscount > DateTime.Now && d.StartOfDiscount < DateTime.Now && d.IsActive == true)
                 .FirstOrDefault();
             if(discount != null)
             {
-                total = Decimal.Multiply(total, (decimal)(1 - discount.DiscountPercent));
+                total = Decimal.Multiply(total, (decimal)(1 - (discount.DiscountPercent)/100));
             }
 
             Invoice invoice = new Invoice() { Orders = orders, Total = total };
